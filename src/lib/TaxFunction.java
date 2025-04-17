@@ -20,8 +20,9 @@ public class TaxFunction {
 		int tax = 0;
 		
 		if (numberOfMonthWorking > 12) {
-			System.err.println("More than 12 month working per year");
-		}
+    throw new IllegalArgumentException("Jumlah bulan bekerja tidak boleh lebih dari 12"); 
+	} 
+
 		
 		if (numberOfChildren > 3) {
 			numberOfChildren = 3;
