@@ -1,4 +1,6 @@
 package lib;
+import lib.TaxConstants;
+
 
 public class TaxFunction {
 
@@ -16,30 +18,24 @@ public class TaxFunction {
 	
 	
 	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
-		int tax = 0;
-		
-		if (numberOfMonthWorking > 12) {
-    throw new IllegalArgumentException("Jumlah bulan bekerja tidak boleh lebih dari 12"); 
-	} 
+    if (numberOfMonthWorking > 12) {
+        throw new IllegalArgumentException("Jumlah bulan bekerja tidak boleh lebih dari 12");
+    }
 
-		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
-		}
-		
-		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
-		}
-		
-		if (tax < 0) {
-			return 0;
-		}else {
-			return tax;
-		}
-			 
-	}
+    if (numberOfChildren > 3) {
+        numberOfChildren = 3;
+    }
+
+    int nonTaxable = TaxConstants.BASIC_NON_TAXABLE;
+    if (isMarried) {
+        nonTaxable += TaxConstants.MARRIAGE_ADDITION + (numberOfChildren * TaxConstants.CHILD_ADDITION);
+    }
+
+    int taxableIncome = ((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - nonTaxable;
+    int tax = (int) Math.round(0.05 * taxableIncome);
+
+    return tax < 0 ? 0 : tax;
+}
+
 	
 }
