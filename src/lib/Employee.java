@@ -67,7 +67,7 @@ public class Employee {
 		this.annualDeductible = deductible;
 	}
 	
-	public void setAdditionalIncome(int income) {	
+	public void setOtherMonthlyIncome(int income) {	
 		this.otherMonthlyIncome = income;
 	}
 	
